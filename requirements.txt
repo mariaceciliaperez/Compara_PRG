@@ -6,3 +6,4 @@ plotly
 pyarrow
 openpyxl
 pythonnet
+scipy>=1.10
