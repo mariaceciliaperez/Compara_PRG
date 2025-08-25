@@ -1,0 +1,22 @@
+# Entornos virtuales
+venv/
+env/
+.venv/
+Lib/
+**/site-packages/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db

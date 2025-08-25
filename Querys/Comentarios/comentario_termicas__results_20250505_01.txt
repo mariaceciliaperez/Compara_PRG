@@ -1,0 +1,7 @@
+PID 20250505_01
+- Actualización de combustibles.
+- Actualización de condiciones iniciales.
+- Actualización de cotas.
+- Ajuste en los horarios de MM para Ralco U2 y Colbun U1.
+- C. Canutillar U1 indisponible.
+- N. Ventanas sin limitación.

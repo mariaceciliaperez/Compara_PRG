@@ -1,0 +1,14 @@
+Eventos incorporados:
+•	C. Taltal U2 indisponible, según IF 2025004570
+•	C. Campiche limitada en 100 MW, según IL 2025001471
+•	CC. Colbún, Enel y Generadora Metropolitana sin disponibilidad de GNA para día operativo 04/07/2025, según IL 2025001470, 2025001444 y 2025001438.
+
+Resultados:
+•	C. Taltal U1 E/S en BL1 – BL3.
+•	C. Atacama 1 CC E/S en BL1 – BL3.
+•	C. Atacama 1 ½ Ciclo TG1B E/S en BL2.
+•	C. Mejillones-3 E/S todo el día.
+•	C. Quintero U1 E/S BL1 – BL3.
+•	C. Quintero U2 E/S todo el día.
+•	C. Nehuenco U2 E/S todo el día.
+•	C. Ralco, Pehuenche, Angostura y Pangue con menor colocación.
