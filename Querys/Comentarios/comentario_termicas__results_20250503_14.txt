@@ -1,5 +1,0 @@
-PID 20250503_14
-- Actualización de cotas
-- actualización de disponibilidad de combustibles
-- C. Ceme U1 limitada 100 MW IL 202500942
-- C. Tocopilla U16 sin pruebas en BL3

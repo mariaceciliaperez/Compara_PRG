@@ -1,9 +1,0 @@
-Eventos incorporados:
-1.	C. TER Nueva Ventanas cancela SDCF 2025074297.
-2.	Actualización de pronóstico ERV.
-3.	Actualización de cotas de embalses.
-4.	Actualización de disponibilidad de combustibles.
-Resultados:
-1.	C. TER Nueva Ventanas E/S.
-2.	Cs. TER Quintero 1 y 2 con GNL-E E/S en BL3.  
-3.	C. TER Candelaria 2 F/S.
