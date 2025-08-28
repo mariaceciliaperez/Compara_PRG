@@ -105,28 +105,28 @@ if modo_config == "Visualización":
     MIN_H, MAX_H = HOURS_INT[0], HOURS_INT[-1]
 
 fecha_lbl = st.session_state.get("FECHA_RESULTADO")
-# # -----------------------------------------------------------------------------
-# # MODO 0 — CONFIGURACIÓN INICIAL
-# # -----------------------------------------------------------------------------
-# if mode == "Configuración":
-#     st.title("Configuración inicial del entorno")
+# -----------------------------------------------------------------------------
+# MODO 0 — CONFIGURACIÓN INICIAL
+# -----------------------------------------------------------------------------
+if mode == "Configuración":
+    st.title("Configuración inicial del entorno")
 
-#     # 1) Cargar .pkl existente
-#     archivos_pkl = sorted(RESULTS_DIR.glob("results_*.pkl"))
-#     etiquetas = [f.name for f in archivos_pkl]
-#     st.subheader("Seleccionar archivo existente")
-#     if etiquetas:
-#         seleccionado = st.selectbox("Elige un archivo de resultados", etiquetas, key="sel_exist")
-#         if st.button("Cargar archivo seleccionado", key="btn_load_exist"):
-#             selected_path = RESULTS_DIR / seleccionado
-#             res = load_results(selected_path)
-#             if res:
-#                 st.success(f"Archivo {seleccionado} cargado exitosamente.")
-#                 st.session_state["DATA_PATH"] = str(selected_path)
-#                 st.session_state["FECHA_RESULTADO"] = fecha_from_filename(selected_path)
-#                 st.rerun()
-#     else:
-#         st.info("No se encontraron archivos .pkl en la carpeta Resultados/.")
+    # 1) Cargar .pkl existente
+    archivos_pkl = sorted(RESULTS_DIR.glob("results_*.pkl"))
+    etiquetas = [f.name for f in archivos_pkl]
+    st.subheader("Seleccionar archivo existente")
+    if etiquetas:
+        seleccionado = st.selectbox("Elige un archivo de resultados", etiquetas, key="sel_exist")
+        if st.button("Cargar archivo seleccionado", key="btn_load_exist"):
+            selected_path = RESULTS_DIR / seleccionado
+            res = load_results(selected_path)
+            if res:
+                st.success(f"Archivo {seleccionado} cargado exitosamente.")
+                st.session_state["DATA_PATH"] = str(selected_path)
+                st.session_state["FECHA_RESULTADO"] = fecha_from_filename(selected_path)
+                st.rerun()
+    else:
+        st.info("No se encontraron archivos .pkl en la carpeta Resultados/.")
 
 #     st.markdown("---")
 #     st.subheader("Generar nuevo archivo de resultados (1 a 3 entradas, PID/PCP)")
@@ -201,8 +201,7 @@ fecha_lbl = st.session_state.get("FECHA_RESULTADO")
 # -----------------------------------------------------------------------------
 # MODO 1 — TOTALES POR CATEGORÍA
 # -----------------------------------------------------------------------------
-# elif mode == "Totales por categoría":
-if mode == "Totales por categoría":
+elif mode == "Totales por categoría":
     if fecha_lbl:
         fecha_caption(fecha_lbl)
 
