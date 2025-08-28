@@ -48,7 +48,7 @@ from compara_prg.viz.plots                   import fecha_caption
 from compara_prg.io.readers                  import ruta_por_defecto, load_results,fecha_from_filename
 from compara_prg.viz.plots                   import mostrar_totales_por_categoria, mostrar_cmg_nodo, mostrar_analisis_termicas, mostrar_totales_sistema, mostrar_comparador_cotas
 from compara_prg.config                      import RESULTS_DIR, OUTPUT_DIR,DEFAULT_PCP_FOLDER, DEFAULT_PID_FOLDER, COLOR, CATEGORY_LABELS, THERMAL_IDX, THRESHOLD
-from compara_prg.viz.grafico_chile     import grafico_chile
+# from compara_prg.viz.grafico_chile     import grafico_chile
 from compara_prg.viz.bat_perfil        import bat_perfil
 
 
@@ -253,11 +253,11 @@ elif mode == "Cotas embalses":
 
 
 
-elif mode == "Nodos y lineas":
-    if fecha_lbl:
-        fecha_caption(fecha_lbl)
-    fig = grafico_chile()   # 👈 ya cacheado
-    st.plotly_chart(fig, use_container_width=True)
+# elif mode == "Nodos y lineas":
+#     if fecha_lbl:
+#         fecha_caption(fecha_lbl)
+#     fig = grafico_chile()   # 👈 ya cacheado
+#     st.plotly_chart(fig, use_container_width=True)
 
 
 
