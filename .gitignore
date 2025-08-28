@@ -4,7 +4,6 @@ env/
 .venv/
 Lib/
 **/site-packages/
-compara_prg/
 
 
 # Python cache
