@@ -22,13 +22,13 @@ from __future__ import annotations
 
 from pathlib import Path
 import sys
-repo_root = Path(__file__).resolve().parents[2]  # .../Compara_PRG
-src_dir = repo_root / "src"
+
+# /mount/src/compara_prg/src/compara_prg/viz/streamlit_app.py
+# Necesitamos añadir .../compara_prg/src al sys.path
+src_dir = Path(__file__).resolve().parents[2]   # → .../compara_prg/src
 if str(src_dir) not in sys.path:
     sys.path.insert(0, str(src_dir))
 
-
-from pathlib import Path
 from typing import Dict
 import warnings
 
