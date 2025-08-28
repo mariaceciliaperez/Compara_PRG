@@ -21,14 +21,6 @@ streamlit run streamlit_app.py
 from __future__ import annotations
 
 from pathlib import Path
-import sys
-repo_root = Path(__file__).resolve().parents[2]  # .../Compara_PRG
-src_dir = repo_root / "src"
-if str(src_dir) not in sys.path:
-    sys.path.insert(0, str(src_dir))
-
-
-from pathlib import Path
 from typing import Dict
 import warnings
 
