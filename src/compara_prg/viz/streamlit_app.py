@@ -42,7 +42,7 @@ st.set_page_config(
 )
 
 
-from compara_prg.services.obtener_resultados import generar_resultados_interactivos_v2, Entrada
+# from compara_prg.services.obtener_resultados import generar_resultados_interactivos_v2, Entrada
 from compara_prg.utils.funciones             import infer_hours
 from compara_prg.viz.plots                   import fecha_caption
 from compara_prg.io.readers                  import ruta_por_defecto, load_results,fecha_from_filename
@@ -105,103 +105,104 @@ if modo_config == "Visualización":
     MIN_H, MAX_H = HOURS_INT[0], HOURS_INT[-1]
 
 fecha_lbl = st.session_state.get("FECHA_RESULTADO")
-# -----------------------------------------------------------------------------
-# MODO 0 — CONFIGURACIÓN INICIAL
-# -----------------------------------------------------------------------------
-if mode == "Configuración":
-    st.title("Configuración inicial del entorno")
+# # -----------------------------------------------------------------------------
+# # MODO 0 — CONFIGURACIÓN INICIAL
+# # -----------------------------------------------------------------------------
+# if mode == "Configuración":
+#     st.title("Configuración inicial del entorno")
 
-    # 1) Cargar .pkl existente
-    archivos_pkl = sorted(RESULTS_DIR.glob("results_*.pkl"))
-    etiquetas = [f.name for f in archivos_pkl]
-    st.subheader("Seleccionar archivo existente")
-    if etiquetas:
-        seleccionado = st.selectbox("Elige un archivo de resultados", etiquetas, key="sel_exist")
-        if st.button("Cargar archivo seleccionado", key="btn_load_exist"):
-            selected_path = RESULTS_DIR / seleccionado
-            res = load_results(selected_path)
-            if res:
-                st.success(f"Archivo {seleccionado} cargado exitosamente.")
-                st.session_state["DATA_PATH"] = str(selected_path)
-                st.session_state["FECHA_RESULTADO"] = fecha_from_filename(selected_path)
-                st.rerun()
-    else:
-        st.info("No se encontraron archivos .pkl en la carpeta Resultados/.")
+#     # 1) Cargar .pkl existente
+#     archivos_pkl = sorted(RESULTS_DIR.glob("results_*.pkl"))
+#     etiquetas = [f.name for f in archivos_pkl]
+#     st.subheader("Seleccionar archivo existente")
+#     if etiquetas:
+#         seleccionado = st.selectbox("Elige un archivo de resultados", etiquetas, key="sel_exist")
+#         if st.button("Cargar archivo seleccionado", key="btn_load_exist"):
+#             selected_path = RESULTS_DIR / seleccionado
+#             res = load_results(selected_path)
+#             if res:
+#                 st.success(f"Archivo {seleccionado} cargado exitosamente.")
+#                 st.session_state["DATA_PATH"] = str(selected_path)
+#                 st.session_state["FECHA_RESULTADO"] = fecha_from_filename(selected_path)
+#                 st.rerun()
+#     else:
+#         st.info("No se encontraron archivos .pkl en la carpeta Resultados/.")
 
-    st.markdown("---")
-    st.subheader("Generar nuevo archivo de resultados (1 a 3 entradas, PID/PCP)")
+#     st.markdown("---")
+#     st.subheader("Generar nuevo archivo de resultados (1 a 3 entradas, PID/PCP)")
 
-    n = st.number_input("¿Cuántas entradas quieres agregar?", min_value=1, max_value=3, value=2, step=1, key="n_entradas")
+#     n = st.number_input("¿Cuántas entradas quieres agregar?", min_value=1, max_value=3, value=2, step=1, key="n_entradas")
 
-    with st.form("form_config_v2"):
-        entradas: list[Entrada] = []
-        for i in range(int(n)):
-            st.markdown(f"#### Entrada {i+1}")
-            c1, c2, c3 = st.columns([1, 2, 2])
+#     with st.form("form_config_v2"):
+#         entradas: list[Entrada] = []
+#         for i in range(int(n)):
+#             st.markdown(f"#### Entrada {i+1}")
+#             c1, c2, c3 = st.columns([1, 2, 2])
 
-            with c1:
-                tipo = st.selectbox("Tipo", options=["PID", "PCP"], key=f"tipo_{i}")
+#             with c1:
+#                 tipo = st.selectbox("Tipo", options=["PID", "PCP"], key=f"tipo_{i}")
 
-            with c2:
-                base = st.text_input(
-                    "Ruta base",
-                    key=f"base_{i}",
-                    placeholder=r"E:\...\PID_YYYYMMDD\Publicacion\YYYYMMDD_PP  (o raíz PCP)",
-                )
+#             with c2:
+#                 base = st.text_input(
+#                     "Ruta base",
+#                     key=f"base_{i}",
+#                     placeholder=r"E:\...\PID_YYYYMMDD\Publicacion\YYYYMMDD_PP  (o raíz PCP)",
+#                 )
 
-            with c3:
-                carpeta_default = DEFAULT_PCP_FOLDER if tipo == "PCP" else DEFAULT_PID_FOLDER
-                carpeta = st.text_input("Carpeta (dentro de la base)", value=carpeta_default, key=f"carpeta_{i}")
+#             with c3:
+#                 carpeta_default = DEFAULT_PCP_FOLDER if tipo == "PCP" else DEFAULT_PID_FOLDER
+#                 carpeta = st.text_input("Carpeta (dentro de la base)", value=carpeta_default, key=f"carpeta_{i}")
 
-            if tipo == "PID":
-                periodo = st.number_input("Periodo (1–24)", min_value=1, max_value=24, value=1, step=1, key=f"periodo_{i}")
-            else:
-                periodo = None
+#             if tipo == "PID":
+#                 periodo = st.number_input("Periodo (1–24)", min_value=1, max_value=24, value=1, step=1, key=f"periodo_{i}")
+#             else:
+#                 periodo = None
 
-            if base.strip():
-                entradas.append(Entrada(tipo=tipo, base=base.strip(), carpeta=carpeta.strip(), periodo=periodo))
+#             if base.strip():
+#                 entradas.append(Entrada(tipo=tipo, base=base.strip(), carpeta=carpeta.strip(), periodo=periodo))
 
-        st.components.v1.html(
-            """
-            <script>
-            const form = window.parent.document.querySelectorAll('div[data-testid="stForm"]')[0];
-            if (form) {
-                form.querySelectorAll('input').forEach(inp => {
-                    inp.addEventListener('keydown', e => {
-                        if (e.key === 'Enter') e.preventDefault();
-                    });
-                });
-            }
-            </script>
-            """,
-            height=0,
-        )
-        submitted = st.form_submit_button("Ejecutar configuración y generar archivo", type="primary")
+#         st.components.v1.html(
+#             """
+#             <script>
+#             const form = window.parent.document.querySelectorAll('div[data-testid="stForm"]')[0];
+#             if (form) {
+#                 form.querySelectorAll('input').forEach(inp => {
+#                     inp.addEventListener('keydown', e => {
+#                         if (e.key === 'Enter') e.preventDefault();
+#                     });
+#                 });
+#             }
+#             </script>
+#             """,
+#             height=0,
+#         )
+#         submitted = st.form_submit_button("Ejecutar configuración y generar archivo", type="primary")
 
-    if submitted:
-        try:
-            if not entradas:
-                st.error("No hay entradas válidas.")
-                st.stop()
+#     if submitted:
+#         try:
+#             if not entradas:
+#                 st.error("No hay entradas válidas.")
+#                 st.stop()
 
-            output_path, res = generar_resultados_interactivos_v2(
-                entradas=entradas,
-                directorio_salida=OUTPUT_DIR,
-                default_pcp_carpeta=DEFAULT_PCP_FOLDER,
-                default_pid_carpeta=DEFAULT_PID_FOLDER,
-            )
-            st.success(f"✅ Archivo generado: {output_path.name}")
-            st.session_state["DATA_PATH"] = str(output_path)
-            st.session_state["FECHA_RESULTADO"] = fecha_from_filename(output_path)
-            st.rerun()
-        except Exception as e:
-            st.error(f"Error al generar resultados: {e}")
+#             output_path, res = generar_resultados_interactivos_v2(
+#                 entradas=entradas,
+#                 directorio_salida=OUTPUT_DIR,
+#                 default_pcp_carpeta=DEFAULT_PCP_FOLDER,
+#                 default_pid_carpeta=DEFAULT_PID_FOLDER,
+#             )
+#             st.success(f"✅ Archivo generado: {output_path.name}")
+#             st.session_state["DATA_PATH"] = str(output_path)
+#             st.session_state["FECHA_RESULTADO"] = fecha_from_filename(output_path)
+#             st.rerun()
+#         except Exception as e:
+#             st.error(f"Error al generar resultados: {e}")
 
 
 # -----------------------------------------------------------------------------
 # MODO 1 — TOTALES POR CATEGORÍA
 # -----------------------------------------------------------------------------
-elif mode == "Totales por categoría":
+# elif mode == "Totales por categoría":
+if mode == "Totales por categoría":
     if fecha_lbl:
         fecha_caption(fecha_lbl)
 
