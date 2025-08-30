@@ -86,7 +86,8 @@ if modo_config == "Visualización":
     st.sidebar.title("Modo de gráfico")
     mode = st.sidebar.radio(
         "Selecciona el modo de análisis:",
-        ("Totales por categoría", "Resumen de simulación", "CMG nodo", "Análisis térmicas", "Cotas embalses","Perfil BESS",'Nodos y lineas'),
+        ("Totales por categoría", "Resumen de simulación", "Análisis térmicas","Totales sistema (GENT)"),
+        #("Totales por categoría", "Resumen de simulación", "CMG nodo", "Análisis térmicas", "Cotas embalses","Perfil BESS",'Nodos y lineas'),
     )
 else:
     mode = "Configuración"
@@ -210,16 +211,16 @@ elif mode == "Totales por categoría":
         MIN_H, MAX_H, CATEGORY_LABELS, COLOR
     )
 
-# -----------------------------------------------------------------------------
-# MODO 2 — CMG POR NODO
-# -----------------------------------------------------------------------------
-elif mode == "CMG nodo":
-    if fecha_lbl:
-        fecha_caption(fecha_lbl)
-    mostrar_cmg_nodo(
-        results, SOLUTIONS, HOURS_FULL,
-        HOURS_INT, MIN_H, MAX_H, COLOR
-    )
+# # -----------------------------------------------------------------------------
+# # MODO 2 — CMG POR NODO
+# # -----------------------------------------------------------------------------
+# elif mode == "CMG nodo":
+#     if fecha_lbl:
+#         fecha_caption(fecha_lbl)
+#     mostrar_cmg_nodo(
+#         results, SOLUTIONS, HOURS_FULL,
+#         HOURS_INT, MIN_H, MAX_H, COLOR
+#     )
 
 # -----------------------------------------------------------------------------
 # MODO 3 — ANÁLISIS TÉRMICAS
@@ -242,13 +243,15 @@ elif mode == "Totales sistema (GENT)":
         hours_int=HOURS_INT,
         color_palette=COLOR
     )
-elif mode == "Cotas embalses":
-    if fecha_lbl:
-        fecha_caption(fecha_lbl)
-    mostrar_comparador_cotas(
-        results=results,
-        solutions=SOLUTIONS
-    )
+
+
+# elif mode == "Cotas embalses":
+#     if fecha_lbl:
+#         fecha_caption(fecha_lbl)
+#     mostrar_comparador_cotas(
+#         results=results,
+#         solutions=SOLUTIONS
+#     )
 
 
 
@@ -260,7 +263,7 @@ elif mode == "Cotas embalses":
 
 
 
-elif mode == "Perfil BESS":
-    if fecha_lbl:
-        fecha_caption(fecha_lbl)
-    bat_perfil(results,SOLUTIONS )
+# elif mode == "Perfil BESS":
+#     if fecha_lbl:
+#         fecha_caption(fecha_lbl)
+#     bat_perfil(results,SOLUTIONS )
