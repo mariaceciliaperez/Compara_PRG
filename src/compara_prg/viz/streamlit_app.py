@@ -86,7 +86,7 @@ if modo_config == "Visualización":
     st.sidebar.title("Modo de gráfico")
     mode = st.sidebar.radio(
         "Selecciona el modo de análisis:",
-        ("Totales por categoría", "Resumen de simulación", "Análisis térmicas","Totales sistema (GENT)"),
+        ("Totales por categoría", "Resumen de simulación", "Análisis térmicas"),
         #("Totales por categoría", "Resumen de simulación", "CMG nodo", "Análisis térmicas", "Cotas embalses","Perfil BESS",'Nodos y lineas'),
     )
 else:

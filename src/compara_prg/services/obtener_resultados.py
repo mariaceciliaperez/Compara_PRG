@@ -128,7 +128,7 @@ def generar_resultados_interactivos_v2(
             periodo_pid = int(e.periodo)
         else:
             hini = 1
-            hfin = 168
+            hfin = 2000
             st_flag = False
             periodo_pid = 1
 
@@ -154,7 +154,7 @@ def generar_resultados_interactivos_v2(
     # Ejecuta consultas por solución x función
     results: Dict[str, Dict[str, Any]] = defaultdict(dict)
     #function_names = ["GENTABLES", "GENC", "GENT", "CMG",'COTAS', "BESS"]
-    function_names = ["GENTABLES",  "GENT"]
+    function_names = ["GENTABLES"]
 
     # ... líneas previas iguales ...
 
