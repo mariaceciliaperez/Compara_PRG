@@ -58,8 +58,10 @@ def generar_resultados_interactivos_v2(
 
     if not entradas:
         raise ValueError("Debes proporcionar al menos una entrada.")
-    if len(entradas) > 3:
-        raise ValueError("El máximo permitido es de 3 entradas.")
+    MAX_ENTRADAS = 10
+    if len(entradas) > MAX_ENTRADAS:
+        raise ValueError(f"El máximo permitido es de {MAX_ENTRADAS} entradas.")
+
 
     # 1) Defaults y validaciones (sin usar 'lbl' aún)
     for e in entradas:
