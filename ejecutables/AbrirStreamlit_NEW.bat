@@ -5,7 +5,7 @@ REM === Configuración ===
 set "ENV_NAME=compara_prg"
 set "PROY=E:\Aplicaciones\Nuevo_PRG\Compara_PRG"
 set "REQS=%PROY%\requirements.txt"
-set "APP=%PROY%\src\compara_prg\viz\streamlit_app_consulta_Api"
+set "APP=%PROY%\src\compara_prg\viz\streamlit_app_consulta_Api.py"
 
 REM === Verificar si existe el ambiente conda ===
 set "ENV_FOUND="

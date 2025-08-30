@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
 from datetime import datetime
 import streamlit as st
-from compara_prg.utils.funciones import extraer_fecha_y_hora_desde_ruta
+from compara_prg.utils.funciones import extraer_fecha_y_hora_desde_ruta, detectar_carpeta_por_zip
 
 # Funciones de consultas 
 from compara_prg.queries.query_generation_tables import get_generation_tables
@@ -55,24 +55,26 @@ def generar_resultados_interactivos_v2(
     default_pcp_carpeta: str,
     default_pid_carpeta: str,
 ) -> Tuple[Path, Dict[str, Any]]:
+
     if not entradas:
         raise ValueError("Debes proporcionar al menos una entrada.")
     if len(entradas) > 3:
         raise ValueError("El máximo permitido es de 3 entradas.")
 
-    # Normaliza carpetas y valida periodos PID
+    # 1) Defaults y validaciones (sin usar 'lbl' aún)
     for e in entradas:
         if e.tipo == "PCP" and (e.carpeta is None or e.carpeta.strip() == ""):
             e.carpeta = default_pcp_carpeta
         if e.tipo == "PID" and (e.carpeta is None or e.carpeta.strip() == ""):
             e.carpeta = default_pid_carpeta
+
         if e.tipo == "PID":
             if e.periodo is None:
                 raise ValueError("Si la entrada es PID, debes informar 'periodo' (1–24).")
             if not (1 <= int(e.periodo) <= 24):
                 raise ValueError("Periodo PID fuera de rango (1–24).")
 
-    # Etiquetas: primer PCP => "PCP", extras => "PCP2"/"PCP3"
+    # 2) Construir labels
     labels: List[str] = []
     pid_idx = 0
     pcp_count = 0
@@ -84,7 +86,7 @@ def generar_resultados_interactivos_v2(
             pcp_count += 1
             labels.append("PCP" if pcp_count == 1 else f"PCP{pcp_count}")
 
-    # Localiza zips y configura cada etiqueta
+    # 3) Localizar zips y configurar por etiqueta (ahora sí existe 'lbl')
     zip_by_label: Dict[str, Path] = {}
     cfg_by_label: Dict[str, Dict[str, Any]] = {}
 
@@ -92,7 +94,22 @@ def generar_resultados_interactivos_v2(
     periodo_nombre: Optional[int] = None
 
     for e, lbl in zip(entradas, labels):
-        zip_path = ruta_zip_valida(e.base, e.carpeta or "", lbl)
+        # Intentar con la carpeta indicada; si falla, detectar automáticamente
+        try:
+            zip_path = ruta_zip_valida(e.base, e.carpeta or "", lbl)
+        except FileNotFoundError:
+            auto_sub = detectar_carpeta_por_zip(e.base)
+            if auto_sub is None:
+                st.error(f"❌ {lbl}: No se encontró ningún .zip dentro de {Path(e.base).resolve()}")
+                raise
+            ubicacion = (auto_sub or ".")  # "." representa la base
+            st.warning(
+                f"⚠ {lbl}: carpeta '{e.carpeta}' no disponible/sin .zip. "
+                f"Usando detección automática: '{ubicacion}'."
+            )
+            e.carpeta = auto_sub  # puede ser "" (usar base)
+            zip_path = ruta_zip_valida(e.base, e.carpeta, lbl)
+
         zip_by_label[lbl] = zip_path
 
         if e.tipo == "PID" and (fecha_nombre is None):
@@ -136,7 +153,8 @@ def generar_resultados_interactivos_v2(
 
     # Ejecuta consultas por solución x función
     results: Dict[str, Dict[str, Any]] = defaultdict(dict)
-    function_names = ["GENTABLES", "GENC", "GENT", "CMG",'COTAS', "BESS"]
+    #function_names = ["GENTABLES", "GENC", "GENT", "CMG",'COTAS', "BESS"]
+    function_names = ["GENTABLES",  "GENT"]
 
     # ... líneas previas iguales ...
 

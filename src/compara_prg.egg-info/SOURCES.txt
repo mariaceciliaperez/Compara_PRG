@@ -28,6 +28,6 @@ src/compara_prg/viz/__init__.py
 src/compara_prg/viz/bat_perfil.py
 src/compara_prg/viz/grafico_chile.py
 src/compara_prg/viz/plots.py
-src/compara_prg/viz/streamlit_app copy.py
 src/compara_prg/viz/streamlit_app.py
+src/compara_prg/viz/streamlit_app_consulta_Api.py
 src/compara_prg/viz/streamlit_app_ori.py

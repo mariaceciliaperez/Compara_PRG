@@ -47,6 +47,40 @@ def validar_ruta_carpeta(base: str, carpeta: str) -> Path:
 
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Helper: detectar carpeta que contiene .zip (la más reciente). 
+# Si hay .zip directamente en base, retorna "" (usar base).
+# ─────────────────────────────────────────────────────────────────────────────
+from pathlib import Path
+from typing import Optional
+import streamlit as st
+
+def detectar_carpeta_por_zip(base: str) -> Optional[str]:
+    """Devuelve el nombre de la subcarpeta de `base` que contenga algún .zip,
+    eligiendo la más reciente. Si hay .zip directamente en `base`, retorna "".
+    Si no hay ningún .zip, retorna None."""
+    p = Path(base).expanduser().resolve()
+    if not p.is_dir():
+        return None
+
+    candidatos = []
+    for d in p.iterdir():
+        if d.is_dir():
+            zips = list(d.glob("*.zip"))
+            if zips:
+                latest = max(zips, key=lambda z: z.stat().st_mtime)
+                candidatos.append((latest.stat().st_mtime, d.name))
+    if candidatos:
+        candidatos.sort(reverse=True)
+        return candidatos[0][1]  # nombre de la subcarpeta
+
+    if list(p.glob("*.zip")):
+        return ""  # usar la base directamente
+
+    return None
+
+
+
 
 def normalize_hours(df: pl.DataFrame, hours_full: list[str]) -> pl.DataFrame:
     # Renombra CUALQUIER columna int a string (antes cortabas en <=100)
